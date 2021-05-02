@@ -10,6 +10,9 @@ public class AdminApp {
     public static final int PORT = 8000;
 
     public static final String REGISTER_USER = "REGISTER_USER";
+    public static final String NEW_BUILDING = "NEW_BUILDING";
+    public static final String NEW_HOUSE = "NEW_HOUSE";
+    public static final String NEW_APARTMENT = "NEW_APARTMENT";
 
     private PresenterImp presenterImp;
     private Socket socket;
@@ -33,6 +36,15 @@ public class AdminApp {
         }
     }
 
+public void writeInt(int number){
+    try {
+        outputChanel.writeInt(number);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
     public void readResponseToServer() {
         new Thread(() -> {
             while (!socket.isClosed()) {
@@ -54,6 +66,17 @@ public class AdminApp {
                 boolean statusAddUser = inputChanel.readBoolean();
                 presenterImp.showAlert(statusAddUser);
                 break;
+            case NEW_BUILDING:
+                presenterImp.addNewBuilding(String.valueOf(inputChanel.readInt()));
+                break;
+            case NEW_HOUSE:
+                presenterImp.addNewHouse(String.valueOf(inputChanel.readInt()));
+                break;
+            case NEW_APARTMENT:
+                presenterImp.addNewApartment(String.valueOf(inputChanel.readInt()));
+                break;
+
+
         }
     }
 }

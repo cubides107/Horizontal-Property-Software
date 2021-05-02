@@ -25,7 +25,7 @@ public class Dashboard extends JPanel {
 
         JLabel title = new JLabel();
         title.setAlignmentX(CENTER_ALIGNMENT);
-        title.setIcon(new ImageIcon(getClass().getResource("/IconApp.png")));
+        title.setIcon(new ImageIcon(getClass().getResource("/IconApp1.png")));
         add(title);
 
         add(Box.createRigidArea(new Dimension(0, 200)));
