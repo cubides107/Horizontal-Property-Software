@@ -37,11 +37,11 @@ public class Dashboard extends JPanel {
         add(reports);
 
         add(Box.createRigidArea(new Dimension(0, 40)));
-        ButtonModelHover  property = new ButtonModelHover("/property.png","PROPIEDADES", actionListener, Events.PROPERTIES.name());
+        ButtonModelHover  property = new ButtonModelHover("/property.png","PROPIEDADES", actionListener, Events.SHOW_PROPERTIES_PANEL.name());
         add(property);
 
         add(Box.createRigidArea(new Dimension(0, 40)));
-        ButtonModelHover users = new ButtonModelHover("/users.png","USUARIOS",actionListener,Events.USERS.name());
+        ButtonModelHover users = new ButtonModelHover("/users.png","USUARIOS",actionListener,Events.SHOW_USERS_PANEL.name());
         add(users);
     }
 }

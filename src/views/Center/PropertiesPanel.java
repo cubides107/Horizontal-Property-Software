@@ -1,11 +1,9 @@
 package views.Center;
 
 import Presenter.Events;
-import models.TypeFiles;
 import models.Node;
 import views.MenuItemModel;
 import views.TreeCellRenderer;
-import views.header.MainHeader;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -14,20 +12,16 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.text.DecimalFormat;
 
-public class PanelCenter extends JPanel {
+public class PropertiesPanel extends JPanel {
 
-    private MainHeader mainHeader;
     private DefaultTreeModel model;
     private DefaultMutableTreeNode nodeRoot;
     private JTree tree;
-    private int idProperty;
     JPopupMenu popMenuRoot;
     JPopupMenu popMenuBuilding;
 
-    public PanelCenter(MouseListener mouseListener, ActionListener actionListener) {
-        idProperty = 1;
+    public PropertiesPanel(MouseListener mouseListener, ActionListener actionListener) {
         popMenuRoot = new JPopupMenu();
         popMenuBuilding = new JPopupMenu();
         setLayout(new BorderLayout());
@@ -35,6 +29,7 @@ public class PanelCenter extends JPanel {
         nodeRoot = new DefaultMutableTreeNode();
         model = new DefaultTreeModel(nodeRoot);
         initComponents(mouseListener, actionListener);
+        System.out.println("pROPIETARES" + hashCode());
     }
 
     public void setNodeRoot(Node nodeRoot) {
@@ -59,9 +54,6 @@ public class PanelCenter extends JPanel {
         menuBuilding.add(new MenuItemModel("Apartamento", actionListener, Events.ADD_APARTMENT.name()));
         popMenuBuilding.add(menuBuilding);
         popMenuBuilding.add(removeElement);
-
-        mainHeader = new MainHeader();
-        add(mainHeader, BorderLayout.NORTH);
 
         tree = new JTree(model);
         tree.addMouseListener(mouseListener);

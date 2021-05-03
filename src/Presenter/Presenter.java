@@ -2,11 +2,13 @@ package Presenter;
 
 import Network.AdminApp;
 import Network.PresenterImp;
+import jdk.swing.interop.SwingInterOpUtils;
 import models.Node;
 import models.TypeFiles;
 import views.MainFrame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -17,6 +19,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
     public static final String NEW_HOUSE = "NEW_HOUSE";
     public static final String REGISTER_USER = "REGISTER_USER";
     public static final String NEW_BUILDING = "NEW_BUILDING";
+    public static final String SHOW_PROPERTIES = "SHOW_PROPERTIES";
     private MainFrame mainFrame;
     private AdminApp adminApp;
 
@@ -35,7 +38,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
         String nameProperty = JOptionPane.showInputDialog(null, "Ingrese El Nombre de la Propiedad Horizontal");
         adminApp.writeUTF("CREATE_HORIZONTAL_PROPERTY");
         adminApp.writeUTF(nameProperty);
-        mainFrame.setNodeRoot(new Node(TypeFiles.HORIZONTAL_PROPERTY,nameProperty, "Super"));
+        mainFrame.setNodeRoot(new Node(TypeFiles.HORIZONTAL_PROPERTY, nameProperty, "Super"));
     }
 
     @Override
@@ -54,19 +57,27 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 mainFrame.showLogin(false);
                 break;
             case PROPERTIES:
-
+                adminApp.writeUTF(SHOW_PROPERTIES);
                 break;
             case ADD_BUILDING:
                 adminApp.writeUTF(NEW_BUILDING);
                 break;
             case ADD_HOUSE:
                 adminApp.writeUTF(NEW_HOUSE);
-
                 break;
             case ADD_APARTMENT:
                 adminApp.writeUTF("NEW_APARTMENT");
                 int idSelectNode = Integer.parseInt(mainFrame.getIdSelectNode());
                 adminApp.writeInt(idSelectNode);
+                break;
+            case ADD_USERS_POP_MENU:
+                mainFrame.addElementToRootUser(new Node(TypeFiles.USER,"User","1"));
+                break;
+            case SHOW_USERS_PANEL:
+                mainFrame.showUserPanel();
+                break;
+            case SHOW_PROPERTIES_PANEL:
+                mainFrame.showPropertiesPanel();
                 break;
         }
     }
@@ -82,28 +93,35 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
 
     @Override
     public void addNewBuilding(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.BUILDING, "Edificio",   idProperty));
+        mainFrame.addElementToRoot(new Node(TypeFiles.BUILDING, "Edificio", idProperty));
     }
 
     @Override
     public void addNewHouse(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.HOUSE,"Casa" ,idProperty));
+        mainFrame.addElementToRoot(new Node(TypeFiles.HOUSE, "Casa", idProperty));
     }
 
     @Override
     public void addNewApartment(String idProperty) {
-        mainFrame.addElementToNode(new Node(TypeFiles.APARTMENT,"Apartamento" , idProperty));
+        mainFrame.addElementToNode(new Node(TypeFiles.APARTMENT, "Apartamento", idProperty));
     }
 
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
-            String selectNode = mainFrame.getSelectNameNode();
-            if (selectNode.equals(TypeFiles.HORIZONTAL_PROPERTY.getType())) {
-                mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 0);
-            } else if (selectNode.equals(TypeFiles.BUILDING.getType())) {
-                mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 1);
+            Component component = e.getComponent().getParent();
+            boolean showingUsersPanel = mainFrame.isShowingUsersPanel();
+            boolean showingPropertiesPanel = mainFrame.isShowingPropertiesPanel();
+            if (showingUsersPanel) {
+                mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 0,0);
+            }else if(showingPropertiesPanel){
+                String selectNode = mainFrame.getSelectNameNode();
+                if (selectNode.equals(TypeFiles.HORIZONTAL_PROPERTY.getType())) {
+                    mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 0,1);
+                } else if (selectNode.equals(TypeFiles.BUILDING.getType())) {
+                    mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 1,1);
+                }
             }
         }
     }

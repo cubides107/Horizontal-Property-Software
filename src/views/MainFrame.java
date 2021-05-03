@@ -47,8 +47,8 @@ public class MainFrame extends JFrame {
         mainPanel.addElementToRoot(node);
     }
 
-    public void showPopMenu(Component component, int x, int y, int idPopMenu) {
-        mainPanel.showPopMenu(component,x,y,idPopMenu);
+    public void showPopMenu(Component component, int x, int y, int idPopMenu, int idPanel) {
+        mainPanel.showPopMenu(component,x,y,idPopMenu, idPanel);
     }
 
     public String getSelectNameNode() {
@@ -61,5 +61,29 @@ public class MainFrame extends JFrame {
 
     public void addElementToNode(Node node) {
        mainPanel.addElementToNode(node);
+    }
+
+    public void showUserPanel() {
+        mainPanel.showUserPanel();
+    }
+
+    public void showPropertiesPanel() {
+        mainPanel.showProperties();
+    }
+
+    public int getHasCodeUsersPanel() {
+        return mainPanel.getHasCodeUserPanel();
+    }
+
+    public boolean isShowingUsersPanel() {
+        return mainPanel.isShowingUsersPanel();
+    }
+
+    public boolean isShowingPropertiesPanel() {
+        return mainPanel.isShowingPropertiesPanel();
+    }
+
+    public void addElementToRootUser(Node user) {
+        mainPanel.addElementToRootUser(user);
     }
 }
