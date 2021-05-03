@@ -13,6 +13,7 @@ public class AdminApp {
     public static final String NEW_BUILDING = "NEW_BUILDING";
     public static final String NEW_HOUSE = "NEW_HOUSE";
     public static final String NEW_APARTMENT = "NEW_APARTMENT";
+    public static final String ADD_HOUSE_USER = "ADD_HOUSE_USER";
 
     private PresenterImp presenterImp;
     private Socket socket;
@@ -64,7 +65,7 @@ public void writeInt(int number){
         switch(message){
             case REGISTER_USER:
                 boolean statusAddUser = inputChanel.readBoolean();
-                presenterImp.showAlert(statusAddUser);
+                presenterImp.showAlert(statusAddUser,inputChanel.readUTF(),inputChanel.readInt());
                 break;
             case NEW_BUILDING:
                 presenterImp.addNewBuilding(String.valueOf(inputChanel.readInt()));
@@ -75,7 +76,13 @@ public void writeInt(int number){
             case NEW_APARTMENT:
                 presenterImp.addNewApartment(String.valueOf(inputChanel.readInt()));
                 break;
+            case ADD_HOUSE_USER:
+                presenterImp.addHouseToUser(inputChanel.readInt());
+                break;
+            case "ADD_APARTMENT_USER":
+                presenterImp.addApartmentToUser(inputChanel.readInt());
 
+            break;
 
         }
     }

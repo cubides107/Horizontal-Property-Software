@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
         return mainPanel.getSelectNameNode();
     }
 
-    public String getIdSelectNode() {
+    public String getIdSelectNodeProperties() {
         return mainPanel.getIdSelectNode();
     }
 
@@ -85,5 +85,21 @@ public class MainFrame extends JFrame {
 
     public void addElementToRootUser(Node user) {
         mainPanel.addElementToRootUser(user);
+    }
+
+    public String getIdSelectNodeUsers() {
+        return mainPanel.getIdSelectNodeUsers();
+    }
+
+    public void addElementToNodeUsers(Node node) {
+        mainPanel.addElementToNodeUsers(node);
+    }
+
+    public void showButtonAdd(boolean b) {
+        mainPanel.showButtonAdd(b);
+    }
+
+    public void setActionCommandAddButton() {
+        mainPanel.setActionCommandAddButton();
     }
 }

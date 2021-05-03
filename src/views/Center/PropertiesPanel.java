@@ -20,6 +20,7 @@ public class PropertiesPanel extends JPanel {
     private JTree tree;
     JPopupMenu popMenuRoot;
     JPopupMenu popMenuBuilding;
+    private JButton add;
 
     public PropertiesPanel(MouseListener mouseListener, ActionListener actionListener) {
         popMenuRoot = new JPopupMenu();
@@ -29,7 +30,6 @@ public class PropertiesPanel extends JPanel {
         nodeRoot = new DefaultMutableTreeNode();
         model = new DefaultTreeModel(nodeRoot);
         initComponents(mouseListener, actionListener);
-        System.out.println("pROPIETARES" + hashCode());
     }
 
     public void setNodeRoot(Node nodeRoot) {
@@ -62,8 +62,23 @@ public class PropertiesPanel extends JPanel {
         tree.setOpaque(false);
         add(tree, BorderLayout.CENTER);
 
+        add = new JButton("Agregar");
+        add.addActionListener(actionListener);
+        add.setActionCommand(Events.ADD_APARTMENT_TREE_PROPERTIES.name());
+        add.setVisible(false);
+        add(add, BorderLayout.SOUTH);
 
     }
+
+    public void showButtonAdd(boolean b){
+        add.setVisible(b);
+    }
+
+    public void setActionCommandAddButton(){
+        add.setVisible(true);
+        add.setActionCommand(Events.SELECT_PROPERTY.name() );
+    }
+
 
     public String getSelectTypeNode() {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
@@ -76,7 +91,7 @@ public class PropertiesPanel extends JPanel {
         }
     }
 
-    public String getIdSelectNode(){
+    public String getIdSelectNode() {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
             DefaultMutableTreeNode lastPathComponent = (DefaultMutableTreeNode) treeSelectionModel.getSelectionPath().getLastPathComponent();

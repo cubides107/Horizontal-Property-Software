@@ -80,4 +80,20 @@ public class MainCenterPanel extends JPanel {
     public void addElementToRootUser(Node user) {
         centerPanel.addElementToRootUser(user);
     }
+
+    public String getIdSelectNodeUsers() {
+       return centerPanel.getIdSelectNodeUsers();
+    }
+
+    public void addElementToNodeUsers(Node node) {
+        centerPanel.addElementToNodeUsers(node);
+    }
+
+    public void showButtonAdd(boolean b) {
+        centerPanel.showButtonAdd(b);
+    }
+
+    public void setActionCommandAddButton() {
+        centerPanel.setActionCommandAddButton();
+    }
 }

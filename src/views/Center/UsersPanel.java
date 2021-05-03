@@ -19,11 +19,11 @@ public class UsersPanel extends JPanel {
     private DefaultMutableTreeNode nodeRoot;
     private JTree tree;
     JPopupMenu popMenuRoot;
-    JPopupMenu popMenuBuilding;
+    JPopupMenu popMenuUsers;
 
     public UsersPanel(MouseListener mouseListener, ActionListener actionListener) {
         popMenuRoot = new JPopupMenu();
-        popMenuBuilding = new JPopupMenu();
+        popMenuUsers = new JPopupMenu();
         setLayout(new BorderLayout());
         setBackground(Color.decode("#1C2868"));
         nodeRoot = new DefaultMutableTreeNode();
@@ -36,13 +36,15 @@ public class UsersPanel extends JPanel {
         MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.ADD_BUILDING.name());
         menu.add(new MenuItemModel("Usuario", actionListener, Events.ADD_USERS_POP_MENU.name()));
         popMenuRoot.add(menu);
-        popMenuRoot.add(new MenuItemModel("Eliminar", actionListener, Events.ADD_BUILDING.name()));
 
 
-        JMenu menuBuilding = new JMenu("Agregar");
-        menuBuilding.add(new MenuItemModel("Apartamento", actionListener, Events.ADD_APARTMENT.name()));
-        popMenuBuilding.add(menuBuilding);
-        popMenuBuilding.add(removeElement);
+
+        JMenu menuUsers = new JMenu("Agregar Nueva Propiedad");
+        menuUsers.add(new MenuItemModel("Casa",actionListener,Events.ADD_HOUSE_USER.name()));
+        menuUsers.add(new MenuItemModel("Apartamento",actionListener,Events.ADD_APARTMENT_USER.name()));
+        popMenuUsers.add(menuUsers);
+        popMenuUsers.add(new MenuItemModel("Seleccionar Propiedad",actionListener,Events.SELECT_PROPERTY_TO_USER.name()));
+        popMenuUsers.add(removeElement);
 
         tree = new JTree(model);
         tree.addMouseListener(mouseListener);
@@ -105,7 +107,7 @@ public class UsersPanel extends JPanel {
         if (idPopMenu == 0) {
             popMenuRoot.show(component, x, y);
         } else {
-            popMenuBuilding.show(component, x, y);
+            popMenuUsers.show(component, x, y);
         }
     }
 
