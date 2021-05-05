@@ -113,4 +113,12 @@ public class CenterPanel extends JPanel {
     public void setActionCommandAddButton() {
         propertiesPanel.setActionCommandAddButton();
     }
+
+    public void removeElementToTree() {
+        propertiesPanel.removeElementToTree();
+    }
+
+    public void removeElementToTreeUsers() {
+        usersPanel.removeElementToTreeUsers();
+    }
 }

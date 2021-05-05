@@ -22,14 +22,14 @@ public class AdminApp {
     private DataInputStream inputChanel;
 
     public AdminApp(PresenterImp presenterImp) throws IOException {
-            this.presenterImp = presenterImp;
-            socket = new Socket("localHost", PORT);
-            outputChanel = new DataOutputStream(socket.getOutputStream());
-            inputChanel = new DataInputStream(socket.getInputStream());
-            readResponseToServer();
+        this.presenterImp = presenterImp;
+        socket = new Socket("localHost", PORT);
+        outputChanel = new DataOutputStream(socket.getOutputStream());
+        inputChanel = new DataInputStream(socket.getInputStream());
+        readResponseToServer();
     }
 
-    public void writeUTF(String message){
+    public void writeUTF(String message) {
         try {
             outputChanel.writeUTF(message);
         } catch (IOException e) {
@@ -37,13 +37,13 @@ public class AdminApp {
         }
     }
 
-public void writeInt(int number){
-    try {
-        outputChanel.writeInt(number);
-    } catch (IOException e) {
-        e.printStackTrace();
+    public void writeInt(int number) {
+        try {
+            outputChanel.writeInt(number);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
 
     public void readResponseToServer() {
@@ -62,10 +62,10 @@ public void writeInt(int number){
     }
 
     private void manageRequest(String message) throws IOException {
-        switch(message){
+        switch (message) {
             case REGISTER_USER:
                 boolean statusAddUser = inputChanel.readBoolean();
-                presenterImp.showAlert(statusAddUser,inputChanel.readUTF(),inputChanel.readInt());
+                presenterImp.showAlert(statusAddUser, inputChanel.readUTF(), inputChanel.readInt());
                 break;
             case NEW_BUILDING:
                 presenterImp.addNewBuilding(String.valueOf(inputChanel.readInt()));
@@ -81,8 +81,16 @@ public void writeInt(int number){
                 break;
             case "ADD_APARTMENT_USER":
                 presenterImp.addApartmentToUser(inputChanel.readInt());
-
-            break;
+                break;
+            case "NEW_POOL":
+                presenterImp.addNewPool(String.valueOf(inputChanel.readInt()));
+                break;
+            case "NEW_FIELD":
+                presenterImp.addNewField(String.valueOf(inputChanel.readInt()));
+                break;
+            case "NEW_ADD_COMMON_ROOM":
+                presenterImp.addNewCommonRoom(String.valueOf(inputChanel.readInt()));
+                break;
 
         }
     }

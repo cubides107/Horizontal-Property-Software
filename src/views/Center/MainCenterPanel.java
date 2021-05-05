@@ -96,4 +96,12 @@ public class MainCenterPanel extends JPanel {
     public void setActionCommandAddButton() {
         centerPanel.setActionCommandAddButton();
     }
+
+    public void removeElementToTree() {
+        centerPanel.removeElementToTree();
+    }
+
+    public void removeElementToTreeUsers() {
+        centerPanel.removeElementToTreeUsers();
+    }
 }

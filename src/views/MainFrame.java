@@ -102,4 +102,12 @@ public class MainFrame extends JFrame {
     public void setActionCommandAddButton() {
         mainPanel.setActionCommandAddButton();
     }
+
+    public void removeElementToTreeProperties() {
+        mainPanel.removeElementToTree();
+    }
+
+    public void removeElementToTreeUsers() {
+        mainPanel.removeElementToTreeUsers();
+    }
 }

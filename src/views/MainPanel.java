@@ -93,4 +93,12 @@ public class MainPanel extends JPanel {
     public void setActionCommandAddButton() {
         mainCenterPanel.setActionCommandAddButton();
     }
+
+    public void removeElementToTree() {
+        mainCenterPanel.removeElementToTree();
+    }
+
+    public void removeElementToTreeUsers() {
+        mainCenterPanel.removeElementToTreeUsers();
+    }
 }

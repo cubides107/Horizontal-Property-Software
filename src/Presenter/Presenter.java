@@ -4,6 +4,7 @@ import Network.AdminApp;
 import Network.PresenterImp;
 import models.Node;
 import models.TypeFiles;
+import views.Center.PropertiesPanel;
 import views.Center.UsersPanel;
 import views.MainFrame;
 
@@ -69,6 +70,15 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 int idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
                 adminApp.writeInt(idSelectNode);
                 break;
+            case ADD_POOL:
+                adminApp.writeUTF("NEW_POOL");
+                break;
+            case FIELD:
+                adminApp.writeUTF("NEW_FIELD");
+                break;
+            case ADD_COMMON_ROOM:
+                adminApp.writeUTF("NEW_ADD_COMMON_ROOM");
+                break;
             case ADD_USERS_POP_MENU:
                 String emailUser = JOptionPane.showInputDialog(null, "Correo usuario");
                 adminApp.writeUTF(REGISTER_USER);
@@ -91,6 +101,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 mainFrame.showButtonAdd(true);
                 break;
             case ADD_APARTMENT_TREE_PROPERTIES:
+                mainFrame.showUserPanel();
                 mainFrame.showButtonAdd(false);
                 adminApp.writeUTF("NEW_APARTMENT");
                 idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
@@ -105,6 +116,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 mainFrame.setActionCommandAddButton();
                 break;
             case SELECT_PROPERTY:
+                mainFrame.showUserPanel();
                 idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
                 String selectNode = mainFrame.getSelectNameNode();
                 String idSelectNodeUsers1 = mainFrame.getIdSelectNodeUsers();
@@ -115,13 +127,28 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     adminApp.writeInt(idSelectNode);
                     if (selectNode.equals(TypeFiles.APARTMENT.getType())) {
                         mainFrame.addElementToNodeUsers(new Node(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idSelectNode)));
-                    }else if(selectNode.equals(TypeFiles.HOUSE.getType())){
+                    } else if (selectNode.equals(TypeFiles.HOUSE.getType())) {
                         mainFrame.addElementToNodeUsers(new Node(TypeFiles.HOUSE, "Casa", String.valueOf(idSelectNode)));
                     }
                 } else {
 
                 }
                 mainFrame.showButtonAdd(false);
+                break;
+            case DELETE_PROPERTY:
+                boolean showingUsersPanel = mainFrame.isShowingUsersPanel();
+                boolean showingPropertiesPanel = mainFrame.isShowingPropertiesPanel();
+                if (showingUsersPanel) {
+                    idSelectNodeUsers = Integer.parseInt(mainFrame.getIdSelectNodeUsers());
+                    adminApp.writeUTF("DELETE_USER");
+                    adminApp.writeInt(idSelectNodeUsers);
+                    mainFrame.removeElementToTreeUsers();
+                } else if (showingPropertiesPanel) {
+                    idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
+                    adminApp.writeUTF("DELETE_PROPERTY");
+                    adminApp.writeInt(idSelectNode);
+                    mainFrame.removeElementToTreeProperties();
+                }
                 break;
         }
     }
@@ -166,6 +193,21 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
         mainFrame.addElementToNodeUsers(new Node(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idProperty)));
     }
 
+    @Override
+    public void addNewPool(String idProperty) {
+        mainFrame.addElementToRoot(new Node(TypeFiles.POOL, "Piscina", idProperty));
+    }
+
+    @Override
+    public void addNewField(String idProperty) {
+        mainFrame.addElementToRoot(new Node(TypeFiles.FIELD, "Cancha", idProperty));
+    }
+
+    @Override
+    public void addNewCommonRoom(String idProperty) {
+        mainFrame.addElementToRoot(new Node(TypeFiles.COMMON_ROOM, "Salon Comunal", idProperty));
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -189,6 +231,10 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 0, 1);
                 } else if (selectNode.equals(TypeFiles.BUILDING.getType())) {
                     mainFrame.showPopMenu(e.getComponent(), e.getX(), e.getY(), 1, 1);
+                } else if (selectNode.equals(TypeFiles.FIELD.getType()) || selectNode.equals(TypeFiles.HOUSE.getType()) || selectNode.equals(TypeFiles.APARTMENT.getType()) ||
+                        selectNode.equals(TypeFiles.COMMON_ROOM.getType()) || selectNode.equals(TypeFiles.POOL.getType())) {
+                    PropertiesPanel component = (PropertiesPanel) e.getComponent().getParent();
+                    component.showDeletePopMenu(e.getComponent(), e.getX(), e.getY());
                 }
             }
         }

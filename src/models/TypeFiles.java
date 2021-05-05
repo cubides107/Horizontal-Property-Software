@@ -9,6 +9,9 @@ public enum TypeFiles {
     APARTMENT(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/apartment.png")), "Apartment"),
     HORIZONTAL_PROPERTY(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/root.png")), "horizontalProperty"),
     HORIZONTAL_PROPERTY_USER(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/root.png")), "horizontalPropertyUser"),
+    POOL(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/pool.png")), "pool"),
+    FIELD(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/campo-de-futbol.png")), "field"),
+    COMMON_ROOM(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/salon.png")), "commonRoom"),
     USER(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/user.png")),"User");
 
     private Icon icon;

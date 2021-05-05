@@ -20,11 +20,13 @@ public class PropertiesPanel extends JPanel {
     private JTree tree;
     JPopupMenu popMenuRoot;
     JPopupMenu popMenuBuilding;
+    JPopupMenu deletePropertyOnly;
     private JButton add;
 
     public PropertiesPanel(MouseListener mouseListener, ActionListener actionListener) {
         popMenuRoot = new JPopupMenu();
         popMenuBuilding = new JPopupMenu();
+        deletePropertyOnly = new JPopupMenu();
         setLayout(new BorderLayout());
         setBackground(Color.decode("#1C2868"));
         nodeRoot = new DefaultMutableTreeNode();
@@ -40,20 +42,23 @@ public class PropertiesPanel extends JPanel {
     private void initComponents(MouseListener mouseListener, ActionListener actionListener) {
 
         JMenu menu = new JMenu("Agregar");
-        MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.ADD_BUILDING.name());
+        MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name());
         menu.add(new MenuItemModel("Edificio", actionListener, Events.ADD_BUILDING.name()));
         menu.add(new MenuItemModel("Casa", actionListener, Events.ADD_HOUSE.name()));
-        menu.add(new MenuItemModel("Salon comunal ", actionListener, Events.ADD_BUILDING.name()));
-        menu.add(new MenuItemModel("Piscina ", actionListener, Events.ADD_BUILDING.name()));
-        menu.add(new MenuItemModel("Cancha", actionListener, Events.ADD_BUILDING.name()));
+        menu.add(new MenuItemModel("Salon comunal ", actionListener, Events.ADD_COMMON_ROOM.name()));
+        menu.add(new MenuItemModel("Piscina ", actionListener, Events.ADD_POOL.name()));
+        menu.add(new MenuItemModel("Cancha", actionListener, Events.FIELD.name()));
         popMenuRoot.add(menu);
-        popMenuRoot.add(new MenuItemModel("Eliminar", actionListener, Events.ADD_BUILDING.name()));
+        popMenuRoot.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name()));
 
 
         JMenu menuBuilding = new JMenu("Agregar");
         menuBuilding.add(new MenuItemModel("Apartamento", actionListener, Events.ADD_APARTMENT.name()));
         popMenuBuilding.add(menuBuilding);
-        popMenuBuilding.add(removeElement);
+        popMenuBuilding.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name()));
+
+
+        deletePropertyOnly.add(removeElement);
 
         tree = new JTree(model);
         tree.addMouseListener(mouseListener);
@@ -77,6 +82,10 @@ public class PropertiesPanel extends JPanel {
     public void setActionCommandAddButton(){
         add.setVisible(true);
         add.setActionCommand(Events.SELECT_PROPERTY.name() );
+    }
+
+    public void removeElementToTree(){
+        model.removeNodeFromParent(getSelectNode());
     }
 
 
@@ -109,6 +118,10 @@ public class PropertiesPanel extends JPanel {
         } else {
             return null;
         }
+    }
+
+    public void showDeletePopMenu(Component component, int x, int y){
+        deletePropertyOnly.show(component,x,y);
     }
 
     public void addElementToRoot(Node node) {

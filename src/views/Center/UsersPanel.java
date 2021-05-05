@@ -20,10 +20,13 @@ public class UsersPanel extends JPanel {
     private JTree tree;
     JPopupMenu popMenuRoot;
     JPopupMenu popMenuUsers;
+    JPopupMenu deletePropertyOnly;
+
 
     public UsersPanel(MouseListener mouseListener, ActionListener actionListener) {
         popMenuRoot = new JPopupMenu();
         popMenuUsers = new JPopupMenu();
+        deletePropertyOnly = new JPopupMenu();
         setLayout(new BorderLayout());
         setBackground(Color.decode("#1C2868"));
         nodeRoot = new DefaultMutableTreeNode();
@@ -33,7 +36,7 @@ public class UsersPanel extends JPanel {
 
     private void initComponents(MouseListener mouseListener, ActionListener actionListener) {
         JMenu menu = new JMenu("Agregar");
-        MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.ADD_BUILDING.name());
+        MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name());
         menu.add(new MenuItemModel("Usuario", actionListener, Events.ADD_USERS_POP_MENU.name()));
         popMenuRoot.add(menu);
 
@@ -114,5 +117,9 @@ public class UsersPanel extends JPanel {
     public void setNodeRoot(Node nodeRoot) {
         this.nodeRoot.setUserObject(nodeRoot);
         tree.updateUI();
+    }
+
+    public void removeElementToTreeUsers() {
+        model.removeNodeFromParent(getSelectNode());
     }
 }
