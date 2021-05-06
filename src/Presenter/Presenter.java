@@ -120,11 +120,11 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
                 String selectNode = mainFrame.getSelectNameNode();
                 String idSelectNodeUsers1 = mainFrame.getIdSelectNodeUsers();
-                System.out.println("NodeProperties: " + idSelectNode + " Nodeusers: " + idSelectNodeUsers1);
                 if (selectNode.equals(TypeFiles.APARTMENT.getType()) || selectNode.equals(TypeFiles.HOUSE.getType())) {
                     adminApp.writeUTF("SET_PROPERTY_TO_USER");
                     adminApp.writeInt(Integer.parseInt(idSelectNodeUsers1));
                     adminApp.writeInt(idSelectNode);
+                    adminApp.writeUTF(selectNode);
                     if (selectNode.equals(TypeFiles.APARTMENT.getType())) {
                         mainFrame.addElementToNodeUsers(new Node(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idSelectNode)));
                     } else if (selectNode.equals(TypeFiles.HOUSE.getType())) {
@@ -143,11 +143,22 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     adminApp.writeUTF("DELETE_USER");
                     adminApp.writeInt(idSelectNodeUsers);
                     mainFrame.removeElementToTreeUsers();
+
                 } else if (showingPropertiesPanel) {
                     idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
                     adminApp.writeUTF("DELETE_PROPERTY");
                     adminApp.writeInt(idSelectNode);
                     mainFrame.removeElementToTreeProperties();
+                    mainFrame.removeElementToTreeUsersById(idSelectNode);
+                }
+                break;
+            case DELETE_PROPERTY_TO_USER:
+                 showingUsersPanel = mainFrame.isShowingUsersPanel();
+                if(showingUsersPanel){
+                    idSelectNodeUsers = Integer.parseInt(mainFrame.getIdSelectNodeUsers());
+                    adminApp.writeUTF("DELETE_PROPERTY_TO_USER");
+                    adminApp.writeInt(idSelectNodeUsers);
+                    mainFrame.removeElementToTreeUsers();
                 }
                 break;
         }
@@ -223,6 +234,8 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     component.showPopMenu(e.getComponent(), e.getX(), e.getY(), 0);
                 } else if (selectNode.equals(TypeFiles.USER.getType())) {
                     component.showPopMenu(e.getComponent(), e.getX(), e.getY(), 1);
+                } else if (selectNode.equals(TypeFiles.HOUSE.getType()) || selectNode.equals(TypeFiles.APARTMENT.getType())) {
+                    component.showPopMenuDeletePropertyToUser(e.getComponent(),e.getX(),e.getY());
                 }
 
             } else if (showingPropertiesPanel) {

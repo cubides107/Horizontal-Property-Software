@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame(ActionListener actionListener, MouseListener mouseListener) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setIconImage(new ImageIcon(getClass().getResource("/IconApp1.png")).getImage());
         setSize(WIDTH_FRAME, HEIGHT_FRAME);
         setLocationRelativeTo(null);
 
@@ -109,5 +110,9 @@ public class MainFrame extends JFrame {
 
     public void removeElementToTreeUsers() {
         mainPanel.removeElementToTreeUsers();
+    }
+
+    public void removeElementToTreeUsersById(int idSelectNode) {
+        mainPanel.removeElementToTreeUsersById(idSelectNode);
     }
 }

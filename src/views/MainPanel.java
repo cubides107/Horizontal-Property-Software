@@ -101,4 +101,8 @@ public class MainPanel extends JPanel {
     public void removeElementToTreeUsers() {
         mainCenterPanel.removeElementToTreeUsers();
     }
+
+    public void removeElementToTreeUsersById(int idSelectNode) {
+        mainCenterPanel.removeElementToTreeUsersById(idSelectNode);
+    }
 }

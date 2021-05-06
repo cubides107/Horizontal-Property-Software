@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
 
 public class UsersPanel extends JPanel {
 
-    private DefaultTreeModel model;
+    private DefaultTreeModel modelTree;
     private DefaultMutableTreeNode nodeRoot;
     private JTree tree;
     JPopupMenu popMenuRoot;
@@ -30,7 +30,7 @@ public class UsersPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#1C2868"));
         nodeRoot = new DefaultMutableTreeNode();
-        model = new DefaultTreeModel(nodeRoot);
+        modelTree = new DefaultTreeModel(nodeRoot);
         initComponents(mouseListener, actionListener);
     }
 
@@ -41,15 +41,16 @@ public class UsersPanel extends JPanel {
         popMenuRoot.add(menu);
 
 
-
         JMenu menuUsers = new JMenu("Agregar Nueva Propiedad");
-        menuUsers.add(new MenuItemModel("Casa",actionListener,Events.ADD_HOUSE_USER.name()));
-        menuUsers.add(new MenuItemModel("Apartamento",actionListener,Events.ADD_APARTMENT_USER.name()));
+        menuUsers.add(new MenuItemModel("Casa", actionListener, Events.ADD_HOUSE_USER.name()));
+        menuUsers.add(new MenuItemModel("Apartamento", actionListener, Events.ADD_APARTMENT_USER.name()));
         popMenuUsers.add(menuUsers);
-        popMenuUsers.add(new MenuItemModel("Seleccionar Propiedad",actionListener,Events.SELECT_PROPERTY_TO_USER.name()));
+        popMenuUsers.add(new MenuItemModel("Seleccionar Propiedad", actionListener, Events.SELECT_PROPERTY_TO_USER.name()));
         popMenuUsers.add(removeElement);
 
-        tree = new JTree(model);
+        deletePropertyOnly.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY_TO_USER.name()));
+
+        tree = new JTree(modelTree);
         tree.addMouseListener(mouseListener);
         tree.setCellRenderer(new TreeCellRenderer());
         tree.setShowsRootHandles(true);
@@ -68,7 +69,7 @@ public class UsersPanel extends JPanel {
         }
     }
 
-    public String getIdSelectNode(){
+    public String getIdSelectNode() {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
             DefaultMutableTreeNode lastPathComponent = (DefaultMutableTreeNode) treeSelectionModel.getSelectionPath().getLastPathComponent();
@@ -77,6 +78,10 @@ public class UsersPanel extends JPanel {
         } else {
             return " ";
         }
+    }
+
+    public void showPopMenuDeletePropertyToUser(Component component, int x, int y) {
+        deletePropertyOnly.show(component, x, y);
     }
 
     public DefaultMutableTreeNode getSelectNode() {
@@ -120,6 +125,24 @@ public class UsersPanel extends JPanel {
     }
 
     public void removeElementToTreeUsers() {
-        model.removeNodeFromParent(getSelectNode());
+        modelTree.removeNodeFromParent(getSelectNode());
+    }
+
+    public void removeElementToTreeUsersById(int idSelectNode) {
+        removeById(idSelectNode, (DefaultMutableTreeNode) modelTree.getRoot());
+    }
+
+    private void removeById(int idSelectNode, DefaultMutableTreeNode actual) {
+        Node nodeAux = (Node) actual.getUserObject();
+        if ((nodeAux.getID().equals((String.valueOf(idSelectNode))))) {
+            modelTree.removeNodeFromParent(actual);
+            return;
+        }
+        int childCount = actual.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            if (i != idSelectNode) {
+                removeById(idSelectNode, (DefaultMutableTreeNode) modelTree.getChild(actual, i));
+            }
+        }
     }
 }
