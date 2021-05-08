@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Ciudadela>
+    <HorizontalPropertyNode>
+        <ID>0</ID>
+        <Building>
+            <ID>1</ID>
+            <Apartment>
+                <ID>6</ID>
+            </Apartment>
+        </Building>
+        <House>
+            <ID>2</ID>
+        </House>
+        <House>
+            <ID>3</ID>
+        </House>
+        <CommonRoom>
+            <ID>4</ID>
+        </CommonRoom>
+        <Pool>
+            <ID>0</ID>
+        </Pool>
+    </HorizontalPropertyNode>
+</Ciudadela>

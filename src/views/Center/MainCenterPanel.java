@@ -1,6 +1,7 @@
 package views.Center;
 
-import models.Node;
+import models.NodeTreeViews;
+import org.w3c.dom.Node;
 import views.header.MainHeader;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class MainCenterPanel extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
     }
 
-    public void setNodeRootProperties(Node nodeRoot) {
+    public void setNodeRootProperties(NodeTreeViews nodeRoot) {
         centerPanel.setNodeRoot(nodeRoot);
     }
 
@@ -44,11 +45,11 @@ public class MainCenterPanel extends JPanel {
         return centerPanel.getSelectNode();
     }
 
-    public void addElementToRoot(Node node) {
+    public void addElementToRoot(NodeTreeViews node) {
         centerPanel.addElementToRoot(node);
     }
 
-    public void addElementToNode(Node node) {
+    public void addElementToNode(NodeTreeViews node) {
         centerPanel.addElementToNode(node);
     }
 
@@ -77,7 +78,7 @@ public class MainCenterPanel extends JPanel {
         return centerPanel.isShowingPropertiesPanel();
     }
 
-    public void addElementToRootUser(Node user) {
+    public void addElementToRootUser(NodeTreeViews user) {
         centerPanel.addElementToRootUser(user);
     }
 
@@ -85,7 +86,7 @@ public class MainCenterPanel extends JPanel {
        return centerPanel.getIdSelectNodeUsers();
     }
 
-    public void addElementToNodeUsers(Node node) {
+    public void addElementToNodeUsers(NodeTreeViews node) {
         centerPanel.addElementToNodeUsers(node);
     }
 
@@ -107,5 +108,13 @@ public class MainCenterPanel extends JPanel {
 
     public void removeElementToTreeUsersById(int idSelectNode) {
         centerPanel.removeElementToTreeUsersById(idSelectNode);
+    }
+
+    public void loadDataProperties(Node root) {
+        centerPanel.loadDataProperties(root);
+    }
+
+    public void setResetCommandButtonAdd() {
+        centerPanel.resetCommandButtonAdd();
     }
 }

@@ -1,8 +1,6 @@
 package Network;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class AdminApp {
@@ -14,6 +12,7 @@ public class AdminApp {
     public static final String NEW_HOUSE = "NEW_HOUSE";
     public static final String NEW_APARTMENT = "NEW_APARTMENT";
     public static final String ADD_HOUSE_USER = "ADD_HOUSE_USER";
+    public static final String SHOW_PROPERTIES = "SHOW_PROPERTIES";
 
     private PresenterImp presenterImp;
     private Socket socket;
@@ -68,6 +67,7 @@ public class AdminApp {
                 presenterImp.showAlert(statusAddUser, inputChanel.readUTF(), inputChanel.readInt());
                 break;
             case NEW_BUILDING:
+                System.out.println("Entro");
                 presenterImp.addNewBuilding(String.valueOf(inputChanel.readInt()));
                 break;
             case NEW_HOUSE:
@@ -91,7 +91,32 @@ public class AdminApp {
             case "NEW_ADD_COMMON_ROOM":
                 presenterImp.addNewCommonRoom(String.valueOf(inputChanel.readInt()));
                 break;
+            case SHOW_PROPERTIES:
+                startToReadFile();
+                presenterImp.loadPropertiesTree();
+                break;
 
         }
+    }
+    private void startToReadFile() throws IOException {
+//            String nameFile = inputChanel.readUTF();
+        int sizeFile = inputChanel.readInt();
+
+//            System.out.println("Tamaño:" + sizeFile + " Nombre: " + nameFile + "/n"
+//                    + "Recibiendo Archivo....");
+
+        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream("data/Properties.xml"));
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputChanel);
+
+        byte[] buffer = new byte[sizeFile];
+        bufferedInputStream.read(buffer);
+
+//        ByteArrayOutputStream out = new ByteArrayOutputStream(buffer.length);
+//        out.write(buffer, 0, buffer.length);
+        outputChannelFiles.write(buffer);
+        outputChannelFiles.flush();
+        outputChannelFiles.close();
+        System.out.println("Archivo recibido");
+//        return out;
     }
 }

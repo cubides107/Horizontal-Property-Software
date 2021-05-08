@@ -2,8 +2,11 @@ package Presenter;
 
 import Network.AdminApp;
 import Network.PresenterImp;
-import models.Node;
+import models.NodeTreeViews;
 import models.TypeFiles;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import persistence.Persistence;
 import views.Center.PropertiesPanel;
 import views.Center.UsersPanel;
 import views.MainFrame;
@@ -38,7 +41,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
         String nameProperty = JOptionPane.showInputDialog(null, "Ingrese El Nombre de la Propiedad Horizontal");
         adminApp.writeUTF("CREATE_HORIZONTAL_PROPERTY");
         adminApp.writeUTF(nameProperty);
-        mainFrame.setNodeRoot(new Node(TypeFiles.HORIZONTAL_PROPERTY, nameProperty, "Super"));
+        mainFrame.setNodeRoot(new NodeTreeViews(TypeFiles.HORIZONTAL_PROPERTY, nameProperty, "Super"));
     }
 
     @Override
@@ -89,12 +92,14 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 break;
             case SHOW_PROPERTIES_PANEL:
                 mainFrame.showPropertiesPanel();
+                adminApp.writeUTF(SHOW_PROPERTIES);
+
                 break;
             case ADD_HOUSE_USER:
+                adminApp.writeUTF(NEW_HOUSE);
                 adminApp.writeUTF("ADD_HOUSE_USER");
                 int idSelectNodeUsers = Integer.parseInt(mainFrame.getIdSelectNodeUsers());
                 adminApp.writeInt(idSelectNodeUsers);
-                adminApp.writeUTF(NEW_HOUSE);
                 break;
             case ADD_APARTMENT_USER:
                 mainFrame.showPropertiesPanel();
@@ -103,6 +108,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
             case ADD_APARTMENT_TREE_PROPERTIES:
                 mainFrame.showUserPanel();
                 mainFrame.showButtonAdd(false);
+
                 adminApp.writeUTF("NEW_APARTMENT");
                 idSelectNode = Integer.parseInt(mainFrame.getIdSelectNodeProperties());
                 adminApp.writeInt(idSelectNode);
@@ -126,13 +132,14 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     adminApp.writeInt(idSelectNode);
                     adminApp.writeUTF(selectNode);
                     if (selectNode.equals(TypeFiles.APARTMENT.getType())) {
-                        mainFrame.addElementToNodeUsers(new Node(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idSelectNode)));
+                        mainFrame.addElementToNodeUsers(new NodeTreeViews(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idSelectNode)));
                     } else if (selectNode.equals(TypeFiles.HOUSE.getType())) {
-                        mainFrame.addElementToNodeUsers(new Node(TypeFiles.HOUSE, "Casa", String.valueOf(idSelectNode)));
+                        mainFrame.addElementToNodeUsers(new NodeTreeViews(TypeFiles.HOUSE, "Casa", String.valueOf(idSelectNode)));
                     }
                 } else {
 
                 }
+                mainFrame.setResetCommandButtonAdd();
                 mainFrame.showButtonAdd(false);
                 break;
             case DELETE_PROPERTY:
@@ -168,7 +175,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
     public void showAlert(boolean statusAlert, String nameUser, int idUser) {
         if (statusAlert) {
             JOptionPane.showMessageDialog(null, "Ok");
-            mainFrame.addElementToRootUser(new Node(TypeFiles.USER, nameUser, String.valueOf(idUser)));
+            mainFrame.addElementToRootUser(new NodeTreeViews(TypeFiles.USER, nameUser, String.valueOf(idUser)));
         } else {
             JOptionPane.showMessageDialog(null, "Se encuentra un Usuario Con ese Nombre");
         }
@@ -176,47 +183,54 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
 
     @Override
     public void addNewBuilding(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.BUILDING, "Edificio", idProperty));
+        mainFrame.addElementToRoot(new NodeTreeViews(TypeFiles.BUILDING, "Edificio", idProperty));
     }
 
     @Override
     public void addNewHouse(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.HOUSE, "Casa", idProperty));
+        mainFrame.addElementToRoot(new NodeTreeViews(TypeFiles.HOUSE, "Casa", idProperty));
     }
 
     @Override
     public void addNewApartment(String idProperty) {
-        mainFrame.addElementToNode(new Node(TypeFiles.APARTMENT, "Apartamento", idProperty));
+        mainFrame.addElementToNode(new NodeTreeViews(TypeFiles.APARTMENT, "Apartamento", idProperty));
     }
 
     @Override
     public void addUser(String emailUser) {
-        mainFrame.addElementToRootUser(new Node(TypeFiles.USER, "User", emailUser));
+        mainFrame.addElementToRootUser(new NodeTreeViews(TypeFiles.USER, "User", emailUser));
     }
 
     @Override
     public void addHouseToUser(int idProperty) {
-        mainFrame.addElementToNodeUsers(new Node(TypeFiles.HOUSE, "Casa", String.valueOf(idProperty)));
+        mainFrame.addElementToNodeUsers(new NodeTreeViews(TypeFiles.HOUSE, "Casa", String.valueOf(idProperty)));
     }
 
     @Override
     public void addApartmentToUser(int idProperty) {
-        mainFrame.addElementToNodeUsers(new Node(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idProperty)));
+        mainFrame.addElementToNodeUsers(new NodeTreeViews(TypeFiles.APARTMENT, "Apartamento", String.valueOf(idProperty)));
     }
 
     @Override
     public void addNewPool(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.POOL, "Piscina", idProperty));
+        mainFrame.addElementToRoot(new NodeTreeViews(TypeFiles.POOL, "Piscina", idProperty));
     }
 
     @Override
     public void addNewField(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.FIELD, "Cancha", idProperty));
+        mainFrame.addElementToRoot(new NodeTreeViews(TypeFiles.FIELD, "Cancha", idProperty));
     }
 
     @Override
     public void addNewCommonRoom(String idProperty) {
-        mainFrame.addElementToRoot(new Node(TypeFiles.COMMON_ROOM, "Salon Comunal", idProperty));
+        mainFrame.addElementToRoot(new NodeTreeViews(TypeFiles.COMMON_ROOM, "Salon Comunal", idProperty));
+    }
+
+    @Override
+    public void loadPropertiesTree() {
+        Document document = Persistence.convertXMLFileToXMLDocument("data/Properties.xml");
+        Node root = document.getDocumentElement();
+        mainFrame.loadDataProperties(root);
     }
 
 

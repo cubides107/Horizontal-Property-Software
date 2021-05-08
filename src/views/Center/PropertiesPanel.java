@@ -1,7 +1,10 @@
 package views.Center;
 
 import Presenter.Events;
-import models.Node;
+import models.NodeTreeViews;
+import models.TypeFiles;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import views.MenuItemModel;
 import views.TreeCellRenderer;
 
@@ -34,7 +37,7 @@ public class PropertiesPanel extends JPanel {
         initComponents(mouseListener, actionListener);
     }
 
-    public void setNodeRoot(Node nodeRoot) {
+    public void setNodeRoot(NodeTreeViews nodeRoot) {
         this.nodeRoot.setUserObject(nodeRoot);
         tree.updateUI();
     }
@@ -75,16 +78,20 @@ public class PropertiesPanel extends JPanel {
 
     }
 
-    public void showButtonAdd(boolean b){
+    public void showButtonAdd(boolean b) {
         add.setVisible(b);
     }
 
-    public void setActionCommandAddButton(){
+    public void setActionCommandAddButton() {
         add.setVisible(true);
-        add.setActionCommand(Events.SELECT_PROPERTY.name() );
+        add.setActionCommand(Events.SELECT_PROPERTY.name());
     }
 
-    public void removeElementToTree(){
+    public void resetCommandButtonAdd(){
+        add.setActionCommand(Events.ADD_APARTMENT_TREE_PROPERTIES.name());
+    }
+
+    public void removeElementToTree() {
         model.removeNodeFromParent(getSelectNode());
     }
 
@@ -93,7 +100,7 @@ public class PropertiesPanel extends JPanel {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
             DefaultMutableTreeNode lastPathComponent = (DefaultMutableTreeNode) treeSelectionModel.getSelectionPath().getLastPathComponent();
-            Node userObject = (Node) lastPathComponent.getUserObject();
+            NodeTreeViews userObject = (NodeTreeViews) lastPathComponent.getUserObject();
             return userObject.getTypeFile().getType();
         } else {
             return " ";
@@ -104,7 +111,7 @@ public class PropertiesPanel extends JPanel {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
             DefaultMutableTreeNode lastPathComponent = (DefaultMutableTreeNode) treeSelectionModel.getSelectionPath().getLastPathComponent();
-            Node userObject = (Node) lastPathComponent.getUserObject();
+            NodeTreeViews userObject = (NodeTreeViews) lastPathComponent.getUserObject();
             return userObject.getID();
         } else {
             return " ";
@@ -120,12 +127,13 @@ public class PropertiesPanel extends JPanel {
         }
     }
 
-    public void showDeletePopMenu(Component component, int x, int y){
-        deletePropertyOnly.show(component,x,y);
+    public void showDeletePopMenu(Component component, int x, int y) {
+        deletePropertyOnly.show(component, x, y);
     }
 
-    public void addElementToRoot(Node node) {
-        this.nodeRoot.add(new DefaultMutableTreeNode(node));
+    public void addElementToRoot(NodeTreeViews node) {
+        DefaultMutableTreeNode nodeRoot = (DefaultMutableTreeNode) model.getRoot();
+        nodeRoot.add(new DefaultMutableTreeNode(node));
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -134,7 +142,7 @@ public class PropertiesPanel extends JPanel {
         tree.updateUI();
     }
 
-    public void addElementToNode(Node node) {
+    public void addElementToNode(NodeTreeViews node) {
         if (getSelectNode() != null) {
             DefaultMutableTreeNode selectNode = getSelectNode();
             selectNode.add(new DefaultMutableTreeNode(node));
@@ -148,5 +156,81 @@ public class PropertiesPanel extends JPanel {
         } else {
             popMenuBuilding.show(component, x, y);
         }
+    }
+
+    public void loadDataProperties(Node root) {
+        model.setRoot(builtTreeNode(root));
+    }
+
+    private DefaultMutableTreeNode builtTreeNode(Node root) {
+        NodeTreeViews node = null;
+        node = caseNodeTree(root, node);
+        DefaultMutableTreeNode dmtNode = new DefaultMutableTreeNode(node);
+        NodeList nodeList = root.getChildNodes();
+        for (int count = 0; count < nodeList.getLength(); count++) {
+            Node tempNode = nodeList.item(count);
+            // make sure it's element node.
+            if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (tempNode.hasChildNodes()) {
+//                    String nodeValue = tempNode.getFirstChild().getNodeValue().trim();
+//                    node.setID(nodeValue);
+                    if (tempNode.getNodeName().equals("ID")) {
+                        String nodeValue = tempNode.getTextContent();
+                        NodeTreeViews userObject = (NodeTreeViews) dmtNode.getUserObject();
+                        userObject.setID(nodeValue);
+                    }
+                    if (!tempNode.getNodeName().equals("ID")) {
+                        dmtNode.add(builtTreeNode(tempNode));
+                    }
+//                    else {
+//                        nodeValue = tempNode.getTextContent();
+//                        node.setID(nodeValue);
+//                    }
+                }
+            }
+        }
+        return dmtNode;
+    }
+
+    private NodeTreeViews caseNodeTree(Node root, NodeTreeViews node) {
+        switch (root.getNodeName()) {
+            case "House":
+                node = new NodeTreeViews(TypeFiles.HOUSE, root.getNodeName(), "0");
+                break;
+            case "Apartment":
+                node = new NodeTreeViews(TypeFiles.APARTMENT, root.getNodeName(), "0");
+                break;
+            case "Building":
+                node = new NodeTreeViews(TypeFiles.BUILDING, root.getNodeName(), "0");
+                break;
+            case "CommonRoom":
+                node = new NodeTreeViews(TypeFiles.COMMON_ROOM, root.getNodeName(), "0");
+                break;
+            case "Pool":
+                node = new NodeTreeViews(TypeFiles.POOL, root.getNodeName(), "0");
+                break;
+            case "Field":
+                node = new NodeTreeViews(TypeFiles.FIELD, root.getNodeName(), "0");
+                break;
+            case "ElectricityService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_ELECTRICITY, root.getNodeName(), "0");
+                break;
+            case "WrapperService":
+                node = new NodeTreeViews(TypeFiles.BILL_SERVICE, root.getNodeName(), "0");
+                break;
+            case "GasService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_GAS, root.getNodeName(), "0");
+                break;
+            case "WaterService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_WATER, root.getNodeName(), "0");
+                break;
+            case "InternetService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_INTERNET, root.getNodeName(), "0");
+                break;
+            default:
+                node = new NodeTreeViews(TypeFiles.HORIZONTAL_PROPERTY, root.getNodeName(), "0");
+                break;
+        }
+        return node;
     }
 }

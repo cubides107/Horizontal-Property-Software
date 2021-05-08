@@ -1,6 +1,7 @@
 package views;
 
-import models.Node;
+import models.NodeTreeViews;
+import org.w3c.dom.Node;
 import views.Center.MainCenterPanel;
 import views.dashboard.Dashboard;
 
@@ -30,11 +31,11 @@ public class MainPanel extends JPanel {
 
     }
 
-    public void setNodeRoot(Node nodeRoot) {
+    public void setNodeRoot(NodeTreeViews nodeRoot) {
         mainCenterPanel.setNodeRootProperties(nodeRoot);
     }
 
-    public void addElementToRoot(Node node) {
+    public void addElementToRoot(NodeTreeViews node) {
         mainCenterPanel.addElementToRoot(node);
     }
 
@@ -46,7 +47,7 @@ public class MainPanel extends JPanel {
         return mainCenterPanel.getSelectTypeNode();
     }
 
-    public void addElementToNode(Node node) {
+    public void addElementToNode(NodeTreeViews node) {
         mainCenterPanel.addElementToNode(node);
     }
 
@@ -74,7 +75,7 @@ public class MainPanel extends JPanel {
         return mainCenterPanel.isShowingPropertiesPanel();
     }
 
-    public void addElementToRootUser(Node user) {
+    public void addElementToRootUser(NodeTreeViews user) {
         mainCenterPanel.addElementToRootUser(user);
     }
 
@@ -82,7 +83,7 @@ public class MainPanel extends JPanel {
         return mainCenterPanel.getIdSelectNodeUsers();
     }
 
-    public void addElementToNodeUsers(Node node) {
+    public void addElementToNodeUsers(NodeTreeViews node) {
         mainCenterPanel.addElementToNodeUsers(node);
     }
 
@@ -104,5 +105,13 @@ public class MainPanel extends JPanel {
 
     public void removeElementToTreeUsersById(int idSelectNode) {
         mainCenterPanel.removeElementToTreeUsersById(idSelectNode);
+    }
+
+    public void loadDataProperties(Node root) {
+        mainCenterPanel.loadDataProperties(root);
+    }
+
+    public void setResetCommandButtonAdd() {
+        mainCenterPanel.setResetCommandButtonAdd();
     }
 }

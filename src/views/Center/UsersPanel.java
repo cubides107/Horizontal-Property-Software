@@ -1,7 +1,7 @@
 package views.Center;
 
 import Presenter.Events;
-import models.Node;
+import models.NodeTreeViews;
 import views.MenuItemModel;
 import views.TreeCellRenderer;
 
@@ -62,7 +62,7 @@ public class UsersPanel extends JPanel {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
             DefaultMutableTreeNode lastPathComponent = (DefaultMutableTreeNode) treeSelectionModel.getSelectionPath().getLastPathComponent();
-            Node userObject = (Node) lastPathComponent.getUserObject();
+            NodeTreeViews userObject = (NodeTreeViews) lastPathComponent.getUserObject();
             return userObject.getTypeFile().getType();
         } else {
             return " ";
@@ -73,7 +73,7 @@ public class UsersPanel extends JPanel {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
             DefaultMutableTreeNode lastPathComponent = (DefaultMutableTreeNode) treeSelectionModel.getSelectionPath().getLastPathComponent();
-            Node userObject = (Node) lastPathComponent.getUserObject();
+            NodeTreeViews userObject = (NodeTreeViews) lastPathComponent.getUserObject();
             return userObject.getID();
         } else {
             return " ";
@@ -93,7 +93,7 @@ public class UsersPanel extends JPanel {
         }
     }
 
-    public void addElementToRoot(Node node) {
+    public void addElementToRoot(NodeTreeViews node) {
         this.nodeRoot.add(new DefaultMutableTreeNode(node));
         try {
             Thread.sleep(10);
@@ -103,7 +103,7 @@ public class UsersPanel extends JPanel {
         tree.updateUI();
     }
 
-    public void addElementToNode(Node node) {
+    public void addElementToNode(NodeTreeViews node) {
         if (getSelectNode() != null) {
             DefaultMutableTreeNode selectNode = getSelectNode();
             selectNode.add(new DefaultMutableTreeNode(node));
@@ -119,7 +119,7 @@ public class UsersPanel extends JPanel {
         }
     }
 
-    public void setNodeRoot(Node nodeRoot) {
+    public void setNodeRoot(NodeTreeViews nodeRoot) {
         this.nodeRoot.setUserObject(nodeRoot);
         tree.updateUI();
     }
@@ -133,7 +133,7 @@ public class UsersPanel extends JPanel {
     }
 
     private void removeById(int idSelectNode, DefaultMutableTreeNode actual) {
-        Node nodeAux = (Node) actual.getUserObject();
+        NodeTreeViews nodeAux = (NodeTreeViews) actual.getUserObject();
         if ((nodeAux.getID().equals((String.valueOf(idSelectNode))))) {
             modelTree.removeNodeFromParent(actual);
             return;

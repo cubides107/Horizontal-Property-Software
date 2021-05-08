@@ -1,10 +1,10 @@
 package views;
 
-import models.Node;
+import models.NodeTreeViews;
+import org.w3c.dom.Node;
 import views.login.MainLogin;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -40,11 +40,11 @@ public class MainFrame extends JFrame {
          return mainLogin.getDataUser();
     }
 
-    public void setNodeRoot(Node nodeRoot){
+    public void setNodeRoot(NodeTreeViews nodeRoot){
        mainPanel.setNodeRoot(nodeRoot);
     }
 
-    public  void addElementToRoot(Node node){
+    public  void addElementToRoot(NodeTreeViews node){
         mainPanel.addElementToRoot(node);
     }
 
@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
         return mainPanel.getIdSelectNode();
     }
 
-    public void addElementToNode(Node node) {
+    public void addElementToNode(NodeTreeViews node) {
        mainPanel.addElementToNode(node);
     }
 
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
         return mainPanel.isShowingPropertiesPanel();
     }
 
-    public void addElementToRootUser(Node user) {
+    public void addElementToRootUser(NodeTreeViews user) {
         mainPanel.addElementToRootUser(user);
     }
 
@@ -92,7 +92,7 @@ public class MainFrame extends JFrame {
         return mainPanel.getIdSelectNodeUsers();
     }
 
-    public void addElementToNodeUsers(Node node) {
+    public void addElementToNodeUsers(NodeTreeViews node) {
         mainPanel.addElementToNodeUsers(node);
     }
 
@@ -114,5 +114,13 @@ public class MainFrame extends JFrame {
 
     public void removeElementToTreeUsersById(int idSelectNode) {
         mainPanel.removeElementToTreeUsersById(idSelectNode);
+    }
+
+    public void loadDataProperties(Node root) {
+        mainPanel.loadDataProperties(root);
+    }
+
+    public void setResetCommandButtonAdd() {
+        mainPanel.setResetCommandButtonAdd();
     }
 }

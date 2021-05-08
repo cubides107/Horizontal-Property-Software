@@ -12,7 +12,12 @@ public enum TypeFiles {
     POOL(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/pool.png")), "pool"),
     FIELD(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/campo-de-futbol.png")), "field"),
     COMMON_ROOM(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/salon.png")), "commonRoom"),
-    USER(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/user.png")),"User");
+    USER(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/user.png")),"User"),
+    SERVICE_WATER(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/agua.png")), "ServiceWater"),
+    SERVICE_ELECTRICITY(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/luz.png")), "ServiceWater"),
+    SERVICE_GAS(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/gas.png")), "ServiceWater"),
+    SERVICE_INTERNET(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/internet.png")), "ServiceWater"),
+    BILL_SERVICE(new ImageIcon(TypeFiles.class.getResource("/ImagesTree/bill.png")), "BillService");
 
     private Icon icon;
     private String type;

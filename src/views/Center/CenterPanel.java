@@ -1,7 +1,8 @@
 package views.Center;
 
-import models.Node;
+import models.NodeTreeViews;
 import models.TypeFiles;
+import org.w3c.dom.Node;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -42,9 +43,9 @@ public class CenterPanel extends JPanel {
         cardLayout.show(this, USERS_PANEL);
     }
 
-    public void setNodeRoot(Node nodeRoot) {
+    public void setNodeRoot(NodeTreeViews nodeRoot) {
         propertiesPanel.setNodeRoot(nodeRoot);
-        usersPanel.setNodeRoot(new Node(TypeFiles.HORIZONTAL_PROPERTY_USER, nodeRoot.getName(), nodeRoot.getID()));
+        usersPanel.setNodeRoot(new NodeTreeViews(TypeFiles.HORIZONTAL_PROPERTY_USER, nodeRoot.getName(), nodeRoot.getID()));
     }
 
     public String getSelectTypeNode() {
@@ -63,11 +64,11 @@ public class CenterPanel extends JPanel {
         return propertiesPanel.getSelectNode();
     }
 
-    public void addElementToRoot(Node node) {
+    public void addElementToRoot(NodeTreeViews node) {
         propertiesPanel.addElementToRoot(node);
     }
 
-    public void addElementToNode(Node node) {
+    public void addElementToNode(NodeTreeViews node) {
         propertiesPanel.addElementToNode(node);
     }
 
@@ -94,7 +95,7 @@ public class CenterPanel extends JPanel {
         return propertiesPanel.isShowing();
     }
 
-    public void addElementToRootUser(Node user) {
+    public void addElementToRootUser(NodeTreeViews user) {
         usersPanel.addElementToRoot(user);
     }
 
@@ -102,7 +103,7 @@ public class CenterPanel extends JPanel {
         return usersPanel.getIdSelectNode();
     }
 
-    public void addElementToNodeUsers(Node node) {
+    public void addElementToNodeUsers(NodeTreeViews node) {
         usersPanel.addElementToNode(node);
     }
 
@@ -124,5 +125,13 @@ public class CenterPanel extends JPanel {
 
     public void removeElementToTreeUsersById(int idSelectNode) {
         usersPanel.removeElementToTreeUsersById(idSelectNode);
+    }
+
+    public void loadDataProperties(Node root) {
+        propertiesPanel.loadDataProperties(root);
+    }
+
+    public void resetCommandButtonAdd() {
+        propertiesPanel.resetCommandButtonAdd();
     }
 }
