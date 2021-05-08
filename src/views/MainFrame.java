@@ -123,4 +123,8 @@ public class MainFrame extends JFrame {
     public void setResetCommandButtonAdd() {
         mainPanel.setResetCommandButtonAdd();
     }
+
+    public void loadDataUsers(Node root) {
+        mainPanel.loadDataUsers(root);
+    }
 }

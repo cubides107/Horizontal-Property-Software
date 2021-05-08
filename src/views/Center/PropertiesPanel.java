@@ -179,7 +179,15 @@ public class PropertiesPanel extends JPanel {
                         NodeTreeViews userObject = (NodeTreeViews) dmtNode.getUserObject();
                         userObject.setID(nodeValue);
                     }
-                    if (!tempNode.getNodeName().equals("ID")) {
+                    if(tempNode.getNodeName().equals("Date")){
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: "  + tempNode.getTextContent());
+                        dmtNode.add(date);
+                    }
+                    if(tempNode.getNodeName().equals("Value")){
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("valor: "  + tempNode.getTextContent());
+                        dmtNode.add(date);
+                    }
+                    if (!(tempNode.getNodeName().equals("ID") || tempNode.getNodeName().equals("Date") || tempNode.getNodeName().equals("Value") )) {
                         dmtNode.add(builtTreeNode(tempNode));
                     }
 //                    else {

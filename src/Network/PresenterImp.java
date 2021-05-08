@@ -22,4 +22,6 @@ public interface PresenterImp {
     void addNewCommonRoom(String idProperty);
 
     void loadPropertiesTree();
+
+    void loadDataUsers();
 }

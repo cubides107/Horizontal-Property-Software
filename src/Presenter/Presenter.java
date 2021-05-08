@@ -89,6 +89,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 break;
             case SHOW_USERS_PANEL:
                 mainFrame.showUserPanel();
+                adminApp.writeUTF("SHOW_USERS_PANEL");
                 break;
             case SHOW_PROPERTIES_PANEL:
                 mainFrame.showPropertiesPanel();
@@ -136,8 +137,6 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     } else if (selectNode.equals(TypeFiles.HOUSE.getType())) {
                         mainFrame.addElementToNodeUsers(new NodeTreeViews(TypeFiles.HOUSE, "Casa", String.valueOf(idSelectNode)));
                     }
-                } else {
-
                 }
                 mainFrame.setResetCommandButtonAdd();
                 mainFrame.showButtonAdd(false);
@@ -175,6 +174,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
     public void showAlert(boolean statusAlert, String nameUser, int idUser) {
         if (statusAlert) {
             JOptionPane.showMessageDialog(null, "Ok");
+            System.out.println(nameUser + idUser);
             mainFrame.addElementToRootUser(new NodeTreeViews(TypeFiles.USER, nameUser, String.valueOf(idUser)));
         } else {
             JOptionPane.showMessageDialog(null, "Se encuentra un Usuario Con ese Nombre");
@@ -231,6 +231,13 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
         Document document = Persistence.convertXMLFileToXMLDocument("data/Properties.xml");
         Node root = document.getDocumentElement();
         mainFrame.loadDataProperties(root);
+    }
+
+    @Override
+    public void loadDataUsers() {
+        Document document = Persistence.convertXMLFileToXMLDocument("data/Users.xml");
+        Node root = document.getDocumentElement();
+        mainFrame.loadDataUsers(root);
     }
 
 

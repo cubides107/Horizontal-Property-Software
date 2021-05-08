@@ -2,12 +2,16 @@ package views.Center;
 
 import Presenter.Events;
 import models.NodeTreeViews;
+import models.TypeFiles;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import views.MenuItemModel;
 import views.TreeCellRenderer;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -58,6 +62,84 @@ public class UsersPanel extends JPanel {
         add(tree, BorderLayout.CENTER);
     }
 
+    public void loadData(Node root) {
+        modelTree.setRoot(builtTreeNode(root));
+    }
+
+    private DefaultMutableTreeNode builtTreeNode(Node root) {
+        NodeTreeViews node = null;
+        node = caseNodeTree(root, node);
+        DefaultMutableTreeNode dmtNode = new DefaultMutableTreeNode(node);
+        NodeList nodeList = root.getChildNodes();
+        for (int count = 0; count < nodeList.getLength(); count++) {
+            Node tempNode = nodeList.item(count);
+            // make sure it's element node.
+            if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (tempNode.hasChildNodes()) {
+
+                    if (tempNode.getNodeName().equals("ID")) {
+                        String nodeValue = tempNode.getTextContent();
+                        NodeTreeViews userObject = (NodeTreeViews) dmtNode.getUserObject();
+                        userObject.setID(nodeValue);
+                    }
+                    if(tempNode.getNodeName().equals("Date")){
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: "  + tempNode.getTextContent());
+                        dmtNode.add(date);
+                    }
+                    if(tempNode.getNodeName().equals("Value")){
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("valor: "  + tempNode.getTextContent());
+                        dmtNode.add(date);
+                    }
+//                    else if (tempNode.getNodeName().equals("Date")) {
+//                        String nodeValue = tempNode.getTextContent();
+//                        NodeTreeViews userObject = (NodeTreeViews) dmtNode.getUserObject();
+//                        userObject.setID(nodeValue);
+//                    }
+
+
+                    if (!(tempNode.getNodeName().equals("ID") || tempNode.getNodeName().equals("Date") || tempNode.getNodeName().equals("Value") )) {
+                        dmtNode.add(builtTreeNode(tempNode));
+                    }
+                }
+            }
+        }
+        return dmtNode;
+    }
+
+    private NodeTreeViews caseNodeTree(Node root, NodeTreeViews node) {
+        if (root.getParentNode().getNodeName().equals("#document")) {
+            return node = new NodeTreeViews(TypeFiles.HORIZONTAL_PROPERTY_USER, root.getNodeName(), "0");
+        }
+        switch (root.getNodeName()) {
+            case "House":
+                node = new NodeTreeViews(TypeFiles.HOUSE, root.getNodeName(), "0");
+                break;
+            case "Apartment":
+                node = new NodeTreeViews(TypeFiles.APARTMENT, root.getNodeName(), "0");
+                break;
+            case "ElectricityService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_ELECTRICITY, root.getNodeName(), "0");
+                break;
+            case "WrapperService":
+                node = new NodeTreeViews(TypeFiles.BILL_SERVICE, root.getNodeName(), "0");
+                break;
+            case "GasService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_GAS, root.getNodeName(), "0");
+                break;
+            case "WaterService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_WATER, root.getNodeName(), "0");
+                break;
+            case "InternetService":
+                node = new NodeTreeViews(TypeFiles.SERVICE_INTERNET, root.getNodeName(), "0");
+                break;
+            default:
+                node = new NodeTreeViews(TypeFiles.USER, root.getNodeName(), "0");
+                break;
+        }
+        return node;
+    }
+
+
     public String getSelectTypeNode() {
         TreeSelectionModel treeSelectionModel = tree.getSelectionModel();
         if (treeSelectionModel.getSelectionPath() != null) {
@@ -94,7 +176,8 @@ public class UsersPanel extends JPanel {
     }
 
     public void addElementToRoot(NodeTreeViews node) {
-        this.nodeRoot.add(new DefaultMutableTreeNode(node));
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) modelTree.getRoot();
+        root.add(new DefaultMutableTreeNode(node));
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {

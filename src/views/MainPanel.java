@@ -114,4 +114,8 @@ public class MainPanel extends JPanel {
     public void setResetCommandButtonAdd() {
         mainCenterPanel.setResetCommandButtonAdd();
     }
+
+    public void loadDataUsers(Node root) {
+        mainCenterPanel.loadDataUsers(root);
+    }
 }

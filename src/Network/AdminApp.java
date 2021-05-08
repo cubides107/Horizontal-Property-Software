@@ -67,7 +67,6 @@ public class AdminApp {
                 presenterImp.showAlert(statusAddUser, inputChanel.readUTF(), inputChanel.readInt());
                 break;
             case NEW_BUILDING:
-                System.out.println("Entro");
                 presenterImp.addNewBuilding(String.valueOf(inputChanel.readInt()));
                 break;
             case NEW_HOUSE:
@@ -92,20 +91,24 @@ public class AdminApp {
                 presenterImp.addNewCommonRoom(String.valueOf(inputChanel.readInt()));
                 break;
             case SHOW_PROPERTIES:
-                startToReadFile();
+                startToReadFile("data/Properties.xml");
                 presenterImp.loadPropertiesTree();
+                break;
+            case "SHOW_USERS_PANEL":
+                startToReadFile("data/Users.xml");
+                presenterImp.loadDataUsers();
                 break;
 
         }
     }
-    private void startToReadFile() throws IOException {
+    private void startToReadFile(String path) throws IOException {
 //            String nameFile = inputChanel.readUTF();
         int sizeFile = inputChanel.readInt();
 
 //            System.out.println("Tamaño:" + sizeFile + " Nombre: " + nameFile + "/n"
 //                    + "Recibiendo Archivo....");
 
-        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream("data/Properties.xml"));
+        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream(path));
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputChanel);
 
         byte[] buffer = new byte[sizeFile];
