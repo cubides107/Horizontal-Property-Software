@@ -1,16 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Comfaboy>
-    <Julian>
-        <ID>1</ID>
-        <House>
-            <ID>10</ID>
-            <WaterService>
-                <ID>11</ID>
-                <WrapperService>
-                    <Date>2021-05-19</Date>
-                    <Value>9000.0</Value>
-                </WrapperService>
-            </WaterService>
-        </House>
-    </Julian>
-</Comfaboy>
+<Comfabpy/>

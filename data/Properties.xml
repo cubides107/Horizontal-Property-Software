@@ -27,14 +27,4 @@
             <ID>9</ID>
         </Apartment>
     </Building>
-    <House>
-        <ID>10</ID>
-        <WaterService>
-            <ID>11</ID>
-            <WrapperService>
-                <Date>2021-05-19</Date>
-                <Value>9000.0</Value>
-            </WrapperService>
-        </WaterService>
-    </House>
 </Comfaboy>
