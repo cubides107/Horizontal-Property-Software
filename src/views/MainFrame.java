@@ -127,4 +127,12 @@ public class MainFrame extends JFrame {
     public void loadDataUsers(Node root) {
         mainPanel.loadDataUsers(root);
     }
+
+    public void showTableReports() {
+        mainPanel.showTableReports();
+    }
+
+    public void showReportUsers() {
+        mainPanel.showReportUsers();
+    }
 }

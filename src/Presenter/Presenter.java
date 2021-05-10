@@ -94,6 +94,10 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
             case SHOW_PROPERTIES_PANEL:
                 mainFrame.showPropertiesPanel();
                 adminApp.writeUTF(SHOW_PROPERTIES);
+                break;
+            case REPORTS:
+                adminApp.writeUTF("REPORT2");
+                mainFrame.showTableReports();
 
                 break;
             case ADD_HOUSE_USER:
@@ -159,8 +163,8 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 }
                 break;
             case DELETE_PROPERTY_TO_USER:
-                 showingUsersPanel = mainFrame.isShowingUsersPanel();
-                if(showingUsersPanel){
+                showingUsersPanel = mainFrame.isShowingUsersPanel();
+                if (showingUsersPanel) {
                     idSelectNodeUsers = Integer.parseInt(mainFrame.getIdSelectNodeUsers());
                     adminApp.writeUTF("DELETE_PROPERTY_TO_USER");
                     adminApp.writeInt(idSelectNodeUsers);
@@ -240,6 +244,11 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
         mainFrame.loadDataUsers(root);
     }
 
+    @Override
+    public void showReportUsers() {
+        mainFrame.showReportUsers();
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -256,7 +265,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 } else if (selectNode.equals(TypeFiles.USER.getType())) {
                     component.showPopMenu(e.getComponent(), e.getX(), e.getY(), 1);
                 } else if (selectNode.equals(TypeFiles.HOUSE.getType()) || selectNode.equals(TypeFiles.APARTMENT.getType())) {
-                    component.showPopMenuDeletePropertyToUser(e.getComponent(),e.getX(),e.getY());
+                    component.showPopMenuDeletePropertyToUser(e.getComponent(), e.getX(), e.getY());
                 }
 
             } else if (showingPropertiesPanel) {

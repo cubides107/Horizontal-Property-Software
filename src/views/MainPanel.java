@@ -118,4 +118,12 @@ public class MainPanel extends JPanel {
     public void loadDataUsers(Node root) {
         mainCenterPanel.loadDataUsers(root);
     }
+
+    public void showTableReports() {
+        mainCenterPanel.showTableReports();
+    }
+
+    public void showReportUsers() {
+        mainCenterPanel.showReportUsers();
+    }
 }

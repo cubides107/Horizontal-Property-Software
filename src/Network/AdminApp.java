@@ -98,9 +98,14 @@ public class AdminApp {
                 startToReadFile("data/Users.xml");
                 presenterImp.loadDataUsers();
                 break;
+            case "REPORT2":
+                readFilePath();
+                presenterImp.showReportUsers();
+                break;
 
         }
     }
+
     private void startToReadFile(String path) throws IOException {
 //            String nameFile = inputChanel.readUTF();
         int sizeFile = inputChanel.readInt();
@@ -116,6 +121,26 @@ public class AdminApp {
 
 //        ByteArrayOutputStream out = new ByteArrayOutputStream(buffer.length);
 //        out.write(buffer, 0, buffer.length);
+        outputChannelFiles.write(buffer);
+        outputChannelFiles.flush();
+        outputChannelFiles.close();
+        System.out.println("Archivo recibido");
+//        return out;
+    }
+
+    private void readFilePath() throws IOException {
+        String nameFile = inputChanel.readUTF();
+        int sizeFile = inputChanel.readInt();
+
+//            System.out.println("Tamaño:" + sizeFile + " Nombre: " + nameFile + "/n"
+//                    + "Recibiendo Archivo....");
+
+        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream("data/" + nameFile));
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputChanel);
+
+        byte[] buffer = new byte[sizeFile];
+        bufferedInputStream.read(buffer);
+
         outputChannelFiles.write(buffer);
         outputChannelFiles.flush();
         outputChannelFiles.close();

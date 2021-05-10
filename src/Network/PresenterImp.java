@@ -24,4 +24,6 @@ public interface PresenterImp {
     void loadPropertiesTree();
 
     void loadDataUsers();
+
+    void showReportUsers();
 }

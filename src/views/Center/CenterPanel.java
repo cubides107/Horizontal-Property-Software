@@ -14,10 +14,12 @@ public class CenterPanel extends JPanel {
 
     public static final String PROPERTIES_PANEL = "propertiesPanel";
     public static final String USERS_PANEL = "users_Panel";
+    public static final String TABLE_REPORT = "tableReport";
     private CardLayout cardLayout;
 
     private PropertiesPanel propertiesPanel;
     private UsersPanel usersPanel;
+    private JPTable tableReport;
 
     public CenterPanel(MouseListener mouseListener, ActionListener actionListener) {
         cardLayout = new CardLayout();
@@ -33,6 +35,9 @@ public class CenterPanel extends JPanel {
         usersPanel = new UsersPanel(mouseListener, actionListener);
         add(usersPanel, USERS_PANEL);
 
+        tableReport = new JPTable();
+        add(tableReport, TABLE_REPORT);
+
     }
 
     public void showPropertiesPanel() {
@@ -41,6 +46,10 @@ public class CenterPanel extends JPanel {
 
     public void showUsersPanel() {
         cardLayout.show(this, USERS_PANEL);
+    }
+
+    public void showTableReport(){
+        cardLayout.show(this,TABLE_REPORT);
     }
 
     public void setNodeRoot(NodeTreeViews nodeRoot) {
@@ -137,5 +146,10 @@ public class CenterPanel extends JPanel {
 
     public void loadDataUsers(Node root) {
         usersPanel.loadData(root);
+    }
+
+
+    public void showReportUsers() {
+        tableReport.setModelTable();
     }
 }
