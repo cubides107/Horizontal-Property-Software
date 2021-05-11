@@ -126,4 +126,8 @@ public class MainPanel extends JPanel {
     public void showReportUsers() {
         mainCenterPanel.showReportUsers();
     }
+
+    public void repaintNodes(String idNodes) {
+        mainCenterPanel.repaintNodes(idNodes);
+    }
 }

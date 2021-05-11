@@ -27,6 +27,9 @@ public class TreeCellRenderer extends DefaultTreeCellRenderer {
         Object node = ((DefaultMutableTreeNode) value).getUserObject();
         if (node instanceof INode) {
             setIcon(((INode) node).getTypeFile().getIcon());
+           if(((INode) node).getIsPainted()){
+               setForeground(Color.GREEN);
+           }
         } else {
             setIcon(null);
         }

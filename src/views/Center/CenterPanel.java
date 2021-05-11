@@ -152,4 +152,8 @@ public class CenterPanel extends JPanel {
     public void showReportUsers() {
         tableReport.setModelTable();
     }
+
+    public void repaintNodes(String idNodes) {
+        propertiesPanel.repaintNodes(idNodes);
+    }
 }

@@ -16,6 +16,7 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 
 public class UsersPanel extends JPanel {
 
@@ -50,6 +51,7 @@ public class UsersPanel extends JPanel {
         menuUsers.add(new MenuItemModel("Apartamento", actionListener, Events.ADD_APARTMENT_USER.name()));
         popMenuUsers.add(menuUsers);
         popMenuUsers.add(new MenuItemModel("Seleccionar Propiedad", actionListener, Events.SELECT_PROPERTY_TO_USER.name()));
+        popMenuUsers.add(new MenuItemModel("Editar",actionListener,Events.EDIT_USER.name()));
         popMenuUsers.add(removeElement);
 
         deletePropertyOnly.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY_TO_USER.name()));
@@ -83,7 +85,8 @@ public class UsersPanel extends JPanel {
                         userObject.setID(nodeValue);
                     }
                     if(tempNode.getNodeName().equals("Date")){
-                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: "  + tempNode.getTextContent());
+                        LocalDate dateParse = LocalDate.parse(tempNode.getTextContent());
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: " + dateParse.getMonth() + "-" + dateParse.getYear());
                         dmtNode.add(date);
                     }
                     if(tempNode.getNodeName().equals("Value")){

@@ -102,6 +102,9 @@ public class AdminApp {
                 readFilePath();
                 presenterImp.showReportUsers();
                 break;
+            case "REPORT3":
+                presenterImp.repaintNodesPropertiesTre(inputChanel.readUTF());
+                break;
 
         }
     }

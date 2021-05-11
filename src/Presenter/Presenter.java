@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class Presenter implements PresenterImp, ActionListener, MouseListener {
     public static final String NEW_HOUSE = "NEW_HOUSE";
@@ -48,7 +49,13 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
     public void actionPerformed(ActionEvent e) {
         switch (Events.valueOf(e.getActionCommand())) {
             case ADD_USER:
-                mainFrame.showLogin(true);
+                mainFrame.showDialogReport(true);
+                break;
+            case ACCEPT_REPORT:
+                LocalDate[] date = mainFrame.getDate();
+                adminApp.writeUTF("REPORT3");
+                adminApp.writeUTF(date[0].toString() + "#" + date[1].toString());
+                mainFrame.showDialogReport(false);
                 break;
             case EXIT:
                 mainFrame.showLogin(false);
@@ -108,6 +115,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 break;
             case ADD_APARTMENT_USER:
                 mainFrame.showPropertiesPanel();
+                JOptionPane.showMessageDialog(null,"Seleccione un Edificio");
                 mainFrame.showButtonAdd(true);
                 break;
             case ADD_APARTMENT_TREE_PROPERTIES:
@@ -124,6 +132,7 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                 break;
             case SELECT_PROPERTY_TO_USER:
                 mainFrame.showPropertiesPanel();
+                JOptionPane.showMessageDialog(null,"Seleccione Una Propiedad");
                 mainFrame.setActionCommandAddButton();
                 break;
             case SELECT_PROPERTY:
@@ -170,6 +179,14 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
                     adminApp.writeInt(idSelectNodeUsers);
                     mainFrame.removeElementToTreeUsers();
                 }
+                break;
+            case EDIT_USER:
+                idSelectNodeUsers = Integer.parseInt(mainFrame.getIdSelectNodeUsers());
+                String email = JOptionPane.showInputDialog(null, "Ingrese el nuevo Correo");
+                adminApp.writeUTF("EDIT_USER");
+                adminApp.writeInt(idSelectNodeUsers);
+                adminApp.writeUTF(email);
+
                 break;
         }
     }
@@ -247,6 +264,12 @@ public class Presenter implements PresenterImp, ActionListener, MouseListener {
     @Override
     public void showReportUsers() {
         mainFrame.showReportUsers();
+    }
+
+    @Override
+    public void repaintNodesPropertiesTre(String idNodes) {
+        mainFrame.repaintNodes(idNodes);
+        mainFrame.showPropertiesPanel();
     }
 
 

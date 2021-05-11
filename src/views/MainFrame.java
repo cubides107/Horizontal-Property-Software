@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 
 
 public class MainFrame extends JFrame {
@@ -17,6 +18,7 @@ public class MainFrame extends JFrame {
 
     private MainPanel mainPanel;
     private MainLogin mainLogin;
+    private DialogReport dialogReport;
 
     public MainFrame(ActionListener actionListener, MouseListener mouseListener) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -28,8 +30,17 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         mainLogin = new MainLogin(actionListener);
-        setVisible(true);
 
+        dialogReport = new DialogReport(actionListener);
+        setVisible(true);
+    }
+
+    public void showDialogReport(boolean option) {
+        dialogReport.setVisible(option);
+    }
+
+    public LocalDate[] getDate(){
+        return dialogReport.getDate();
     }
 
     public void showLogin(boolean option){
@@ -134,5 +145,9 @@ public class MainFrame extends JFrame {
 
     public void showReportUsers() {
         mainPanel.showReportUsers();
+    }
+
+    public void repaintNodes(String idNodes) {
+        mainPanel.repaintNodes(idNodes);
     }
 }

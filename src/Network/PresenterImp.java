@@ -26,4 +26,6 @@ public interface PresenterImp {
     void loadDataUsers();
 
     void showReportUsers();
+
+    void repaintNodesPropertiesTre(String idNodes);
 }

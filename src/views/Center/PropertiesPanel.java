@@ -9,12 +9,16 @@ import views.MenuItemModel;
 import views.TreeCellRenderer;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.sql.Wrapper;
+import java.time.LocalDate;
 
 public class PropertiesPanel extends JPanel {
 
@@ -87,7 +91,7 @@ public class PropertiesPanel extends JPanel {
         add.setActionCommand(Events.SELECT_PROPERTY.name());
     }
 
-    public void resetCommandButtonAdd(){
+    public void resetCommandButtonAdd() {
         add.setActionCommand(Events.ADD_APARTMENT_TREE_PROPERTIES.name());
     }
 
@@ -179,15 +183,16 @@ public class PropertiesPanel extends JPanel {
                         NodeTreeViews userObject = (NodeTreeViews) dmtNode.getUserObject();
                         userObject.setID(nodeValue);
                     }
-                    if(tempNode.getNodeName().equals("Date")){
-                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: "  + tempNode.getTextContent());
+                    if (tempNode.getNodeName().equals("Date")) {
+                        LocalDate dateParse = LocalDate.parse(tempNode.getTextContent());
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: " + dateParse.getMonth() + "-" + dateParse.getYear());
                         dmtNode.add(date);
                     }
-                    if(tempNode.getNodeName().equals("Value")){
-                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("valor: "  + tempNode.getTextContent());
+                    if (tempNode.getNodeName().equals("Value")) {
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("valor: " + tempNode.getTextContent());
                         dmtNode.add(date);
                     }
-                    if (!(tempNode.getNodeName().equals("ID") || tempNode.getNodeName().equals("Date") || tempNode.getNodeName().equals("Value") )) {
+                    if (!(tempNode.getNodeName().equals("ID") || tempNode.getNodeName().equals("Date") || tempNode.getNodeName().equals("Value"))) {
                         dmtNode.add(builtTreeNode(tempNode));
                     }
 //                    else {
@@ -224,7 +229,7 @@ public class PropertiesPanel extends JPanel {
                 node = new NodeTreeViews(TypeFiles.SERVICE_ELECTRICITY, root.getNodeName(), "0");
                 break;
             case "WrapperService":
-                node = new NodeTreeViews(TypeFiles.BILL_SERVICE, root.getNodeName(), "0");
+                node = new NodeTreeViews(TypeFiles.BILL_SERVICE, "Factura", "0");
                 break;
             case "GasService":
                 node = new NodeTreeViews(TypeFiles.SERVICE_GAS, root.getNodeName(), "0");
@@ -240,5 +245,40 @@ public class PropertiesPanel extends JPanel {
                 break;
         }
         return node;
+    }
+
+    public void repaintNodes(String idNodes) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        String[] arrayIdNodes = idNodes.split(",");
+        repaintNodes(arrayIdNodes, node);
+        tree.repaint();
+    }
+
+    private void repaintNodes(String[] arrayIdNodes, DefaultMutableTreeNode node) {
+        for (String idNode : arrayIdNodes) {
+            System.out.println(idNode);
+        }
+        int childCount = node.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getChildAt(i);
+            if(!childNode.isLeaf()) {
+                NodeTreeViews nodeTreeView = (NodeTreeViews) childNode.getUserObject();
+
+                for (String idNode : arrayIdNodes) {
+                    if (nodeTreeView.getID().equals(idNode)) {
+                        nodeTreeView.setPainted(true);
+                    }
+                }
+//                if (nodeTreeView.getName().equals("Factura")) {
+//                    return;
+//                }
+            }
+//
+            if (childNode.getChildCount() > 0) {
+                repaintNodes(arrayIdNodes, childNode);
+            } else {
+
+            }
+        }
     }
 }
